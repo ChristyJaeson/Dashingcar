@@ -1,0 +1,56 @@
+
+.miles-wrapper {
+	width: 90%;
+	margin: 10% auto 0;
+}
+.html5-miles-bar {
+	padding: 5% 5%;
+	border-radius: 3px;
+	background-color: transparent;
+}
+.html5-miles-bar progress {
+	background-color: #7E44C7;
+	border: 0;
+	width: 80%;
+	height: 18px;
+	border-radius: 9px;
+}
+.html5-miles-bar progress::-webkit-progress-bar {
+	background-color: #666666;
+	border-radius: 9px;
+}
+.html5-miles-bar progress::-webkit-progress-value {
+	background: #83EF5E;
+	background: -moz-linear-gradient(top,  #83EF5E 0%, #a5c956 100%);
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#83EF5E), color-stop(100%,#83EF5E));
+	background: -webkit-linear-gradient(top,  #83EF5E 0%,#83EF5E 100%);
+	background: -o-linear-gradient(top,  #83EF5E 0%,#83EF5E 100%);
+	background: -ms-linear-gradient(top,  #83EF5E 0%,#83EF5E 100%);
+	background: linear-gradient(to right, red 0%, red 100%);
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#83EF5E', endColorstr='#83EF5E',GradientType=0 );
+	border-radius: 9px;
+}
+.html5-miles-bar progress::-moz-progress-bar {
+	background: #cdeb8e;
+	background: -moz-linear-gradient(top,  #cdeb8e 0%, #a5c956 100%);
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#cdeb8e), color-stop(100%,#a5c956));
+	background: -webkit-linear-gradient(top,  #cdeb8e 0%,#a5c956 100%);
+	background: -o-linear-gradient(top,  #cdeb8e 0%,#a5c956 100%);
+	background: -ms-linear-gradient(top,  #cdeb8e 0%,#a5c956 100%);
+	background: linear-gradient(to bottom,  #cdeb8e 0%,#a5c956 100%);
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#cdeb8e', endColorstr='#a5c956',GradientType=0 );
+	border-radius: 9px;
+}
+.html5-miles-bar .miles-value {
+color: #7E44C7;
+	padding: 0px 5px;
+	line-height: 20px;
+	margin-left: 5px;
+	height: 18px;
+	float: right;
+	
+	font-size: 1.2em;
+ 
+  font-weight: bold;
+	
+}

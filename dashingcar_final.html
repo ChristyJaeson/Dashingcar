@@ -1,0 +1,753 @@
+
+<!DOCTYPE html>
+<html>
+<link rel="stylesheet" href="css/font.css">
+
+	<link rel="stylesheet" href="css/Progressbar_style.css">
+        <link rel="stylesheet" href="css/milesbar_style.css">
+	<script src="js/jquery.js" type="text/javascript"></script>
+	<script src="js/modernizr.js" type="text/javascript"></script>
+<style>
+@import url(http://fonts.googleapis.com/css?family=Open+Sans);
+
+body { 
+  font-family: 'Open Sans', sans-serif;
+  color: #666;
+  
+}
+
+/* STRUCTURE */
+
+#pagewrap {
+    width: 98%;
+    height: 95%;
+    margin:0 auto;
+    background: #83EF5E;
+    overflow:hidden;
+    border: solid 1px #ff0000;
+    display:table;
+
+    -moz-border-radius: 17px;
+  -webkit-border-radius: 17px;
+  border-radius: 17px;
+}
+
+#leftDiv{
+    width: 27%;
+    float: left;
+    background: #6FC0C3;
+    padding: 1% 2% 1% 2%;
+    margin-top: 2%;
+    margin-left: 1%;
+    margin-bottom: 2%;
+    margin-right: 0.1%;
+  
+    height:inherit;
+    border: solid 0px #ccc;
+    display:table-cell:;
+
+    -moz-border-radius: 17px;
+  -webkit-border-radius: 17px;
+  border-radius: 17px;
+   
+}
+
+
+#trackDiv {
+    width: 25%; /* Account for margins + border values */
+    float: left;
+    padding-top: 0.5%;
+    padding-bottom:0.5%;
+    margin-left: 0.1%;
+  margin-right: 0.1%;
+
+  height:inherit;
+    border: solid 0px #ccc;
+    min-width: 300px;
+}
+
+#rightDiv {
+    width: 36%;
+    float: left;
+    background: #6FC0C3;
+    padding: 1% 2% 1% 2%;
+    margin-top: 2%;
+    
+    margin-right: 1%;
+    margin-left: 0.5%;
+    margin-bottom:2%;
+    display:table-cell;
+
+    height:inherit;
+    border: solid 0px #ccc;
+
+    -moz-border-radius: 17px;
+  -webkit-border-radius: 17px;
+  border-radius: 17px;
+  
+  { margin: 0; padding: 0; box-sizing: border-box; }
+      
+      body { font: 13px Helvetica, Arial; }
+      form { background: #000; padding: 3px; position: fixed; bottom: 0; width: 100%; }
+      form input { border: 0; padding: 10px; width: 30%; margin-right: .5%; }
+      form button { width: 9%; background: rgb(130, 224, 255); border: none; padding: 10px; }
+      #messages { list-style-type: none; margin: 0; padding: 0; }
+      #messages li { padding: 5px 10px; }
+      #messages li:nth-child(odd) { background: #eee; }
+    
+}
+div.scroll {
+    width: 300px;
+    height: 200px;
+    overflow-x: hidden;
+    overflow-y: auto;
+}
+
+.innerDiv, .otherStuff {
+
+background: #F2F0C9;
+  padding: 6% 0% 6% 0%;
+  margin: 2% 10% 2% 10%;
+  -moz-border-radius: 25px;
+  -webkit-border-radius: 25px;
+  border-radius: 25px;
+  border: 1px solid #747679;
+
+}
+
+
+.innerDiv h3,.otherStuff h3{
+text-align: center;
+color:#ED5918;
+}
+
+.innerDiv h2,.otherStuff h2{
+text-align: center;
+
+color:#7E44C7;
+    
+}
+
+.myButton {
+background-color: #06641F;
+  -moz-border-radius: 37px;
+  -webkit-border-radius: 37px;
+  border-radius: 37px;
+  border: 1px solid #18ab29;
+  display: inline-block;
+  margin-left: 33%;
+  margin-right: auto;
+  width: 20%;
+  cursor: pointer;
+  color: #ffffff;
+  font-family: arial;
+  font-size: 17px;
+  padding: 16px 31px;
+  text-decoration: none;
+  text-shadow: 0px 1px 0px #2f6627;
+    
+}
+.gameButton {
+background-color: #06641F;
+  -moz-border-radius: 37px;
+  -webkit-border-radius: 37px;
+  border-radius: 37px;
+  border: 1px solid #18ab29;
+  display: inline-block;
+
+  margin-left: 19%;
+  margin-right: auto;
+  width: 60%;
+  cursor: pointer;
+  color: #ffffff;
+  font-family: arial;
+  font-size: 17px;
+  padding: 16px 31px;
+  text-decoration: none;
+  text-shadow: 0px 1px 0px #2f6627;
+    
+}
+.myButton:hover,.gameButton:hover, {
+    background-color:#5cbf2a;
+}
+.myButton:active,.gameButton:active {
+    position:relative;
+    top:1px;
+}
+
+canvas{
+
+background-image:url('objects/TextureForRoad.jpg');
+background-repeat:repeat;
+background-size: contain;
+max-height: 80%;
+margin-left:1%;
+}
+
+
+.innerDiv img{
+ height: 15%;
+  width: 15%;
+  margin: 0% 4% 0% 0%;
+  float: none;
+  vertical-align: middle;}
+  
+  .scoreCounter
+  {
+  margin-left:20%;
+  margin-bottom:20%;
+  }
+  
+  .scoreCounter span{
+	background: black;
+  padding: 5px 5px 11px 5px;
+  margin: 1px 1px 1px 1px;
+  color: yellow;
+  float: left;
+  border: 1px white;
+  font-size: 30px;
+  width: 30px;
+  height: 30px;
+  text-align: center;
+  vertical-align: middle;
+    border-radius: 7px;
+  }
+
+
+</style>
+<body onLoad="racebgm.play()">
+<div id="pagewrap">   
+    <div id="leftDiv">
+        <div class="innerDiv">
+        	<h3>Your Score</h3>
+			
+			<div class="scoreCounter">
+<span id="col1"><label>S</label></span>
+<span id="col2"><label>T</label></span>
+<span id="col3"><label>A</label></span>
+<span id="col4"><label>R</label></span>
+<span id="col5"><label>T</label></span>
+</div>
+       		
+    	</div>
+	<div class="innerDiv">
+		<h3><img src="./objects/fuel.png" ></img>Fuel</h3>
+	   <div class="demo-wrapper html5-progress-bar">
+		<div class="progress-bar-wrapper">
+			<progress id="progressbar" value="100" max="100" min="0"></progress>
+			<span class="progress-value">100%</span>
+		</div>
+	   </div>	
+	</div>	
+	<div class="innerDiv">
+            	<h3>Target to Complete: 30 miles</h3>
+        	<div class="miles-wrapper html5-miles-bar">
+		<div class="miles-bar-wrapper">
+			<progress id="milesbar" value="0" max="30" min="0"></progress>
+			<span class="miles-value">0</span>
+		</div>
+	   </div>
+	</div>
+  <br>
+
+        <input type="button" class="gameButton" value="START GAME" onclick="startGame()"/>
+        <a href ="#" class="button" onclick="openWin1()">Homepage</a><br>
+        <script>
+        var url = window.location.href.split("#");
+    var username = url[1];
+    var score = url[2];
+    document.getElementById("username").innerHTML =username;
+    document.getElementById("score").innerHTML =score;
+function openWin1() {
+window.open("Welcome.html?#"+username,"_self");
+}
+        </script>
+    </div>
+    <div id="trackDiv">
+        <canvas id="myCanvas" width="300" style="border:1px solid #d3d3d3;">
+		Your browser does not support the HTML5 canvas tag.</canvas>
+    </div>
+    <div id="rightDiv">
+        <div class="otherStuff" align="center">
+		<h3><label id="username"></label>'s Chat Room </h3>
+	<div class="scroll">	
+    <ul id="messages" align="left" style="list-style-type: none;"></ul></div>
+    <form action="">
+      <input id="m" autocomplete="off" />
+      <button>Send</button>
+    </form>
+    
+    <script src="https://cdn.socket.io/socket.io-1.2.0.js"></script>
+    <script src="http://code.jquery.com/jquery-1.11.1.js"></script>
+    <script>
+        function processForm(){
+        var parameters = location.search.substring(1).split("&");
+    var temp = parameters[0].split("=");
+    l = unescape(temp[1]);
+	//alert(l); //Dialog with the text you put on the textbox
+	document.getElementById('username').innerHTML =l;
+     
+        }
+      processForm();
+	  
+	  </script>
+	  
+    
+    <script src="https://cdn.socket.io/socket.io-1.2.0.js"></script>
+    <script src="http://code.jquery.com/jquery-1.11.1.js"></script>
+	<script src="lib/app.js"></script>
+    <script>
+ var url = window.location.href.split("#");
+    var username = url[1];
+document.getElementById('username').innerHTML =username ;
+    //var retVal = prompt("Enter your ID  here : ", "");
+    //alert("Your ID is : " +  l );
+      var socket = io();
+      $('form').submit(function(){
+        socket.emit('chat message', username+": " + $('#m').val());
+        $('#m').val('');
+        return false;
+      });
+      socket.on('chat message', function(msg){
+        $('#messages').append($('<li>').text(msg));
+      });  
+    </script>                  
+	</div>
+	<div class="otherStuff" align="center">
+		<h3>Game Instructions</h3>
+                <p><img src="Wallpaper/keybuttons.png" alt="icon" width="350px" height="250px" /></p> 
+	</div>
+    </div>
+</div>
+<script>
+var myScore=0;
+var dx= 4;
+var dy=4;
+var y=150;
+var y1=310;
+var cr=1;
+
+var audio = new Audio('1.mp3');
+var racebgm = new Audio('racebgm.mp3');
+audio.loop = false;
+var treeImg=document.createElement("img");
+treeImg.setAttribute('src', 'objects/shrub.png');
+var treeImg1=document.createElement("img");
+treeImg1.setAttribute('src', 'objects/shrub.png');
+var treeImg2=document.createElement("img");
+treeImg2.setAttribute('src', 'objects/shrub.png');
+var w=window;
+var windowHeight=w.innerHeight;
+var wH2=windowHeight/2;
+var windowWidth=w.innerWidth;
+windowHeight-=50;
+
+var canvas=document.getElementById("myCanvas");
+document.getElementById("myCanvas").setAttribute('height',w.innerHeight-50);
+
+var oImg=document.createElement("img");
+oImg.setAttribute('src', 'objects/redcar.png');
+var boomImg=document.createElement("img");
+boomImg.setAttribute('src', 'Wallpaper/boom1.gif');
+
+var ctx = canvas.getContext("2d");
+var carX=160;
+var carDX=5, carDY=5;
+var carY=windowHeight-100;
+ctx.drawImage(oImg, carX, carY ,50,80);
+function drawTree(){
+    context= myCanvas.getContext('2d');
+    context.clearRect(0,0,55,windowHeight);
+    context.beginPath();
+    context.drawImage(treeImg, 5, y ,50,50);
+    context.drawImage(treeImg, 5, (y+wH2)%windowHeight ,50,50);
+    context.closePath();
+    context.fill();
+    if( y<0 || y>700)
+    {   
+        y=y%windowHeight;
+    }
+    y+=dy;
+}
+var treetimer;//=setInterval(drawTree,25);
+
+function scoreCounter(){
+myScore=myScore+10;
+callScoreCounter(myScore);
+}
+var scoretimer;//=setInterval(scoreCounter,500);
+
+function drawTree1(){
+    context1= myCanvas.getContext('2d');
+    context1.clearRect(250,0,300,windowHeight);
+    context1.beginPath();
+    context1.drawImage(treeImg, 250, y1 ,50,50);
+    context.drawImage(treeImg1, 250, (y1+wH2+60)%windowHeight ,50,60);
+    context1.closePath();
+    context1.fill();
+    if( y1<0 || y1>700)
+    {   
+        y1=y1%windowHeight;
+    }
+
+    y1+=dy;
+}
+var tree1timer;//=setInterval(drawTree1,25);
+
+var value;
+var fuelbar = document.getElementById("progressbar");
+
+var fuel=document.createElement("img");
+fuel.setAttribute('src', 'objects/fuelcharge.png');
+var fuelX=60,fuelY=0;
+var fueldx=10,fueldy=10;
+function drawFuel(){
+    context1= myCanvas.getContext('2d');
+    context1.clearRect(fuelX-fueldx, fuelY-fueldy ,50,50);
+    context1.beginPath();
+    context1.drawImage(fuel, fuelX, fuelY ,50,50);
+    context1.closePath();
+    context1.fill();
+if( (fuelX>=carX&&fuelX<=carX+50&&fuelY>=carY&&fuelY<=carY+80)
+  ||(fuelX+50>=carX&&fuelX+50<=carX+50&&fuelY>=carY&&fuelY<=carY+80)
+  ||(fuelX>=carX&&fuelX<=carX+50&&fuelY+50>=carY&&fuelY+50<=carY+80)
+  ||(fuelX+50>=carX&&fuelX+50<=carX+50&&fuelY+50>=carY&&fuelY+50<=carY+80)
+  ){
+context1.clearRect(fuelX, fuelY ,50,50);
+clearInterval(fueltimer);
+myScore=myScore+1000;
+fuelbar.value+=60;
+fuelX=60;fuelY=0;
+fueldx=10;fueldy=10;
+callScoreCounter(myScore);
+    }
+    if( fuelY>windowHeight )
+    {   
+        fuelY=0;
+        clearInterval(fueltimer);
+    }
+    if(fuelX<60 ||fuelX>200 )
+    {   
+        fueldx=-fueldx;
+    }
+    fuelX+=fueldx;fuelY+=fueldy;
+}
+var fueltimer;
+
+
+function fuelBarLoader() {
+    fuelbar.value -= 1;
+    value=fuelbar.value;
+    if(value==25)
+      {     fueltimer=setInterval(drawFuel,80);    }
+    if(value<0)
+      {     clearAllIntervals(); alert("No Fuel left... \nYOU LOSE !!!...");     }
+    $('.progress-value').html(value + '%');
+}
+var fuelBarTimer;//=setInterval(fuelBarLoader, 600);
+
+var mvalue;
+var milesbar = document.getElementById("milesbar");
+function milesBarLoader() {
+//alert(milesbar.value);
+    milesbar.value += 0.3;
+    mvalue=milesbar.value;
+    if(mvalue>=30)
+      {   $('.miles-value').html(mvalue + 'miles');  clearAllIntervals(); alert("Congratulations...TARGET Miles Achieved \nYOU WIN !!!...");     }
+    else
+      $('.miles-value').html(mvalue + 'miles');
+}
+var milesBarTimer;//=setInterval(milesBarLoader, 1000);
+
+var carImg1=document.createElement("img");
+carImg1.setAttribute('src', 'objects/green.gif');
+var car3x=0,car2x=0,car1x;
+var car1y=0;
+
+car1x=Math.random()*150 + 50;
+car2x=Math.random()*150 + 50;
+car3x=Math.random()*150 + 50;
+
+var carImg2=document.createElement("img");
+carImg2.setAttribute('src', 'objects/blueCar.png');
+var carImg3=document.createElement("img");
+carImg3.setAttribute('src', 'objects/blue.png');
+
+function drawCar1(){
+if(car1y==0){
+  while((car1x>=car2x&&car1x<=car2x+50)||(car1x+50>=car2x&&car1x+50<=car2x+50)
+      ||(car1x>=car3x&&car1x<=car3x+50)||(car1x+50>=car3x&&car1x+50<=car3x+50))
+        {car1x=Math.random()*150 + 50;}
+  }
+if( ( (car1y+80==car2y)&&((car1x>=car2x&&car1x<=car2x+50)||(car1x+50>=car2x&&car1x+50<=car2x+50)) )
+  ||( (car1y+80==car3y)&&((car1x>=car3x&&car1x<=car3x+50)||(car1x+50>=car3x&&car1x+50<=car3x+50)) ) )
+{}
+else
+  {
+    context1= myCanvas.getContext('2d');
+    context1.clearRect(car1x, car1y-dy ,45,80);
+    context1.beginPath();
+    context1.drawImage(carImg1, car1x, car1y ,45,80);
+    context1.closePath();
+    context1.fill();
+    if( car1y>windowHeight)
+    {   
+        car1y=0;//car1y%windowHeight;
+        car1x=Math.random()*140 + 60;
+    }
+
+    car1y+=dy;
+  }
+}
+var car1timer;//=setInterval(drawCar1,25);
+
+var car2y=0;
+function drawCar2(){
+if(car2y==0){
+  while((car2x>=car1x&&car2x<=car1x+50)||(car2x+50>=car1x&&car2x+50<=car1x+50)
+      ||(car2x>=car3x&&car2x<=car3x+50)||(car2x+50>=car3x&&car2x+50<=car3x+50))
+        {car2x=Math.random()*150 + 50;}
+  }
+if( ((car2y+80==car1y)&&((car2x>=car1x&&car2x<=car1x+50)||(car2x+50>=car1x&&car2x+50<=car1x+50))) 
+  ||((car2y+80==car3y)&&((car2x>=car3x&&car2x<=car3x+50)||(car2x+50>=car3x&&car2x+50<=car3x+50)))  )
+{}
+else
+  {
+    context1= myCanvas.getContext('2d');
+    context1.clearRect(car2x, car2y-dy ,50,80);
+    context1.beginPath();
+    context1.drawImage(carImg2, car2x, car2y ,50,80);
+    context1.closePath();
+    context1.fill();
+    if( car2y>windowHeight)
+    {   
+        car2y=0;//car2y%windowHeight;
+        car2x=Math.random()*140 + 60;
+    }
+    car2y+=dy;
+  }
+}
+var car2timer;//=setInterval(drawCar2,20);
+
+var car3y=0;
+function drawCar3(){
+if(car3y==0){
+  while((car3x>=car2x&&car3x<=car2x+50)||(car3x+50>=car2x&&car3x+50<=car2x+50)
+      ||(car3x>=car1x&&car3x<=car1x+50)||(car3x+50>=car1x&&car3x+50<=car1x+50))
+        {car3x=Math.random()*150 + 50;}
+  }
+if( ((car3y+80==car1y)&&((car3x>=car1x&&car3x<=car1x+50)||(car3x+50>=car1x&&car3x+50<=car1x+50))) 
+  ||((car3y+80==car2y)&&((car3x>=car2x&&car3x<=car2x+50)||(car3x+50>=car2x&&car3x+50<=car2x+50)))  )
+{}
+else
+  {
+    context1= myCanvas.getContext('2d');
+    context1.clearRect(car3x, car3y-dy ,50,80);
+    context1.beginPath();
+    context1.drawImage(carImg3, car3x, car3y ,50,80);
+    context1.closePath();
+    context1.fill();
+    if( car3y>windowHeight)
+    {   
+        car3y=0;//car3y%windowHeight;
+        car3x=Math.random()*140 + 60;
+    }
+    car3y+=dy;
+  }
+}
+var car3timer;//=setInterval(drawCar3,35);
+ctx.drawImage(treeImg, 10, (windowHeight-200)%windowHeight ,50,50);
+ctx.drawImage(treeImg, 10, (windowHeight-600) ,50,50);
+ctx.drawImage(treeImg, 250, windowHeight-400 ,50,50);
+
+
+function LoadScoreToDB(){
+   var db = openDatabase('DashingCar_DB_test', '1.0', 'DB Test', 2 * 1024 * 1024);
+   db.transaction(function (tx) {  
+   tx.executeSql("CREATE TABLE IF NOT EXISTS User_Details"+
+ 	"(email,username,password,myscore,PRIMARY KEY(email,username))");
+   });
+   
+   
+   var url = window.location.href.split("#");
+   var usr = url[1];
+
+   db.transaction(function (tx) {
+    var highScore=0;
+   tx.executeSql('SELECT myscore  FROM User_Details where username ="'+usr +'"', [], function (tx, results) {
+   var len = results.rows.length, i;
+    if(len<=1){
+     highScore =  results.rows.item(0).myscore ;  
+     if(myScore>highScore )
+        {tx.executeSql('UPDATE User_Details SET myscore='+myScore+' WHERE username="'+usr+'"', []);}
+      }
+    }, null);
+   }); 
+}
+
+function clearAllIntervals(){
+        clearInterval(car1timer);
+	clearInterval(cartimer);
+	clearInterval(car2timer);
+	clearInterval(car3timer);
+	clearInterval(tree1timer);
+	clearInterval(treetimer);
+	clearInterval(scoretimer);
+        clearInterval(fueltimer);
+        clearInterval(fuelBarTimer);
+        clearInterval(milesBarTimer);
+    LoadScoreToDB();
+}
+var isBoom=1;
+var avgX,avgY;
+function drawCar(){	
+    context1= myCanvas.getContext('2d');
+    context1.clearRect(carX, carY ,50,80);
+    context1.beginPath();
+    context1.drawImage(oImg, carX, carY ,50,80);
+    context1.closePath();
+    context1.fill();
+    
+    if((carX+3>=car1x+3&&carX+3<=car1x+45&&carY+3>=car1y+3&&carY+3<=car1y+75)
+		||(carX+47>=car1x&&carX+47<=car1x+45&&carY+3>=car1y+3&&carY+3<=car1y+75)){
+    moveCar=0;
+        clearAllIntervals();
+    context1= myCanvas.getContext('2d');
+    avgX=(carX+car1x+50)/2;
+    avgY=(carY+80+car1y)/2;
+    context1.beginPath();
+if(isBoom==1)
+	audio.play();
+    context1.drawImage(boomImg, avgX-35, avgY-35 ,70,70);
+	racebgm.pause();
+    context1.closePath();
+isBoom=0;
+    context1.fill();
+    }
+   
+    if((carX+3>=car2x+3&&carX+3<=car2x+45&&carY+3>=car2y+3&&carY+3<=car2y+75)
+		||(carX+47>=car2x&&carX+47<=car2x+45&&carY+3>=car2y+3&&carY+3<=car2y+75)){
+    moveCar=0;
+	clearAllIntervals();
+    context1= myCanvas.getContext('2d');
+    avgX=(carX+car2x+50)/2;
+    avgY=(carY+80+car2y)/2;
+    context1.beginPath();
+if(isBoom==1)
+	audio.play();
+    context1.drawImage(boomImg, avgX-35, avgY-35 ,70,70);
+	racebgm.pause();
+isBoom=0;
+    context1.closePath();
+    context1.fill();
+    }
+
+    if((carX+3>=car3x+3&&carX+3<=car3x+45&&carY+3>=car3y+3&&carY+3<=car3y+75)
+		||(carX+47>=car3x&&carX+47<=car3x+45&&carY+3>=car3y+3&&carY+3<=car3y+75)){
+    moveCar=0;
+	clearAllIntervals();
+    context1= myCanvas.getContext('2d');
+    avgX=(carX+car3x+50)/2;
+    avgY=(carY+80+car3y)/2;
+    context1.beginPath();
+if(isBoom==1)
+	audio.play();
+    context1.drawImage(boomImg, avgX-35, avgY-35 ,70,70);
+	racebgm.pause();
+isBoom=0;
+    context1.closePath();
+    context1.fill();
+    }
+}
+
+var moveCar=1;
+var cartimer=setInterval(drawCar,10);
+function startGame(){
+if(isBoom==0)
+{
+context1.clearRect(car1x, car1y-dy ,50,80);
+context1.clearRect(car2x, car2y-dy ,50,80);
+context1.clearRect(car3x, car3y-dy ,50,80);
+    
+context1.clearRect(  avgX-35, avgY-35 ,70,70);
+car1y=0;
+car2y=0;
+car3y=0;
+racebgm.play();
+isBoom=1; 
+}
+treetimer=setInterval(drawTree,25);
+tree1timer=setInterval(drawTree1,25);
+scoretimer=setInterval(scoreCounter,500);
+fuelBarTimer=setInterval(fuelBarLoader, 600);
+milesBarTimer=setInterval(milesBarLoader, 1000);
+car1timer=setInterval(drawCar1,25);
+car2timer=setInterval(drawCar2,20);
+car3timer=setInterval(drawCar3,35);
+moveCar=1;
+
+cartimer=setInterval(drawCar,10);
+fuelbar.value=100;
+milesbar.value=0;
+}
+
+document.onkeypress = function(e) {
+if(moveCar==1){
+if(e.keyCode==97){
+context1.clearRect(carX, carY ,50,80);
+if(carX-carDX>50){
+carX-=carDX;
+}
+ctx.drawImage(oImg, carX, carY ,50,80);
+}
+if(e.keyCode==100){
+context1.clearRect(carX, carY ,50,80);
+if(carX+carDX<200)
+carX+=carDX;
+ctx.drawImage(oImg, carX, carY ,50,80);
+}
+if(e.keyCode==119){
+context1.clearRect(carX, carY ,50,80);
+if(carY-carDY>100)
+carY-=carDY;
+ctx.drawImage(oImg, carX, carY ,50,80);
+}
+if(e.keyCode==115){
+context1.clearRect(carX, carY ,50,80);
+if(carY+carDY<windowHeight-100)
+carY+=carDY;
+ctx.drawImage(oImg, carX, carY ,50,80);
+}
+}
+};
+
+//Added by sasideep
+function callScoreCounter(score)
+  {
+  var str = score.toString();
+  //alert(str.length);
+  if(str.length < 5)
+  {
+  while(str.length < 5)
+  {
+  str="0"+str;
+  }
+  }
+  for (var k = 1; k <= 5; k++) {
+  //alert(str.charAt(k-1));
+  if( $("#col"+k+" label").html() != parseInt(str.charAt(k-1)))
+  {
+  
+  //$("#col"+k+" label").hide(400);
+  $("#col"+k+" label").html(parseInt(str.charAt(k-1)));
+  //$("#col"+k+" label").show(400);
+  
+  }
+  
+  
+  }
+  }
+  
+</script>
+</body>
+</html>

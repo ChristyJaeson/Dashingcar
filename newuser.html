@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html>
+<head>
+ <meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+ @media screen and (max-width: 2000px) {
+body {
+    background-image: url("Wallpaper/bg2.jpg");
+	background-size:100%;
+    background-repeat: no-repeat;
+}
+}
+a:hover {
+    color:Black;
+    background-color:transparent;
+    text-decoration:underline;
+
+}
+
+</style>
+</head>
+<body>
+  
+
+  <fieldset>
+    <legend><a href="Login.html">SignIn</a></legend>
+  <center>
+  <h1>New User Login Details</h1>
+<form  id="myForm" action="Welcome.html" onsubmit="return validateForm()" method="GET">
+	
+    <table style="width:600px">
+  <tr>
+    <td>Username:*</td>
+    <td><input type="text" name="username" id="username"placeholder="Username" spellcheck="false" required></td>
+  </tr>
+  <tr>
+    <td>Password:*</td>    
+    <td><input type="password" id="password" placeholder="password"  spellcheck="true" required></td>
+  </tr>
+  <tr>
+    <td>Confirm Password:*</td>
+    <td><input type="password" id="confirmpassword" placeholder="Confirmpassword" spellcheck="true"required></td>
+
+  </tr>
+  <tr>
+    <td>Email:*</td>
+    <td><input type="email" id="email" placeholder="Email"autocomplete="off" required></td>
+  </tr>
+
+  
+</table>
+<br>
+
+<input type="button" value="Register" onclick="validateForm()" style="background:#00C492; color:#fff;">
+
+
+ </center>
+ <div id="InvalidEntry" name = "status" style="color:black"></div>
+</fieldset>
+</form>
+<script>
+var upload;
+function validateForm(){
+  var email =  document.getElementById('email').value;
+  var re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+
+document.getElementById('InvalidEntry').innerHTML="";
+
+if(re.test(email)==false)
+  document.getElementById('InvalidEntry').innerHTML="Invalid email : Please Check";
+var password=document.getElementById('password').value;
+var username=document.getElementById('username').value;
+
+var confirmpassword=document.getElementById('confirmpassword').value;
+if (confirmpassword != password){
+  document.getElementById('InvalidEntry').innerHTML="Password does no match!Try again";
+  return false;
+}
+
+if(password==''||email==''){
+  document.getElementById('InvalidEntry').innerHTML="Please Fill * feilds";
+return false;
+}
+
+if (re.test(email)){
+  var db = openDatabase('DashingCar_DB_test', '1.0', 'DB Test', 2 * 1024 * 1024);
+db.transaction(function (tx) {  
+   tx.executeSql("CREATE TABLE IF NOT EXISTS User_Details"+
+  "(email,username,password,myscore,PRIMARY KEY(email,username))");
+});
+  db.transaction(function (tx) {
+   tx.executeSql('SELECT COUNT(*) as xxx FROM User WHERE email="'+email+'" OR username like "'+ username+'"', [], function (tx, results) {
+   var len = results.rows.length, i;
+   if(len>0){
+    document.getElementById('InvalidEntry').innerHTML="Username/email already Exists";
+    upload=0;
+   }else{upload=1;}
+
+ }, null);
+});
+    i();
+//window.open("Welcome.html?username=" + document.getElementById('username').value);
+
+    return true;
+  }
+  else
+    return false;
+}
+
+
+function i(){
+var db = openDatabase('DashingCar_DB_test', '1.0', 'DB Test', 2 * 1024 * 1024);
+db.transaction(function (tx) {  
+  if(upload==1)
+   tx.executeSql("CREATE TABLE IF NOT EXISTS User_Details"+
+  "(email,username,password,myscore,PRIMARY KEY(email,username))");
+});
+
+var email=document.getElementById('email').value;
+var password=document.getElementById('password').value;
+var username=document.getElementById('username').value;
+
+db.transaction(function (tx) {
+
+   tx.executeSql("INSERT INTO User_Details (email,username,password,myscore) VALUES"+"('"+email+"','"+username+"','"+password+"',"+0+")"  );
+   window.open("Welcome.html?#" + username,"_self");
+});
+
+}
+</script>
+
+<div id="status" name = "status" style="color:white"></div>
+<div id="status2" name = "status" style="color:white"></div>
+<div id="InvalidEntry" style="color:red"> </div>
+</body>
+</html>

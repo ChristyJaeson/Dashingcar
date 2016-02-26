@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
+    <meta charset="utf-8">
+    <title>Simple markers</title>
+    <style>
+      html, body, #map-canvas {
+        height: 100%;
+        margin: 0px;
+        padding: 0px
+      }
+    </style>
+   <script src="https://maps.googleapis.com/maps/api/js?v=3.18&key=AIzaSyCzQ2L8GDbcN1pYgJhxqS_clwMHbIp8Bho"></script>
+    <script>
+	var db = openDatabase('DashingCar_DB_test', '1.0', 'DB Test', 2 * 1024 * 1024);
+	var map;
+  function initialize() {
+   var myLatlng = new google.maps.LatLng(30,-100);
+   var mapOptions = {
+    zoom: 1,
+    center: myLatlng
+   }
+   map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
+
+   db.transaction(function (tx) {  
+   tx.executeSql("CREATE TABLE IF NOT EXISTS UserLocation"+
+	"(Latitude,Longitude ,PRIMARY KEY(Latitude,Longitude) )");
+   });
+
+function getUserLocation(position) {
+  //alert("getUserLoc");
+  insertLocation(position.coords.latitude,position.coords.longitude);
+}
+function error(msg) {
+alert(msg);
+}
+if (navigator.geolocation) {
+   // alert("navigator");
+    navigator.geolocation.getCurrentPosition(getUserLocation, error);
+  } else {
+    error('Geolocation not supported');
+  }
+function insertLocation(lat,long){
+ //alert(lat+"-"+long);
+ db.transaction(function (tx) {
+   tx.executeSql("INSERT INTO UserLocation (Latitude,Longitude) VALUES"+"("+lat+","+long+")"  );
+ });
+}
+  
+
+   db.transaction(function (tx) {
+   tx.executeSql('SELECT * FROM UserLocation ', [], function (tx, results) {
+   var len = results.rows.length, i;
+   for (i = 0; i < len; i++){
+    x=results.rows.item(i).Latitude;
+    y=results.rows.item(i).Longitude;
+    
+    var markerTemp = new google.maps.Marker({
+      position: new google.maps.LatLng(x,y),
+      map: map,
+      title: "sasi"
+     });
+    }
+   
+   }, null);
+  });
+
+ }
+
+
+
+
+
+google.maps.event.addDomListener(window, 'load', initialize);
+
+    </script>
+  </head>
+  <body>
+    <div id="map-canvas"></div>
+  </body>
+</html>

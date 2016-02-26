@@ -1,0 +1,77 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+#header {
+    background-color:orange;
+    color:black;
+    text-align:center;
+     padding:5px;
+}
+  @media screen and (max-width: 2000px) {
+body {
+    background-image: url('Wallpaper/bg2.jpg');  
+	background-size:100%;
+    background-repeat: no-repeat;
+    text-align:center;   
+}
+}
+table tr:nth-child(even) {
+    font-size : 20px;
+    font-family : "Myriad Web",Verdana,Helvetica,Arial,sans-serif;
+}
+table tr:nth-child(odd) {
+font-size : 20px;
+font-family : "Myriad Web",Verdana,Helvetica,Arial,sans-serif;
+}
+table th	{
+    background-color:orange;
+    color: black;
+  font-family : "Myriad Web",Verdana,Helvetica,Arial,sans-serif;
+font-size : 24px;
+}
+</style>
+</head>
+<body>
+
+<div id="header">
+<h1>Top Scores</h1> 
+</div> 
+
+<fieldset>
+   <legend>Top Scores</legend> 
+   <div id="topScoreTable"></div>
+</fieldset> 
+
+
+<script>
+function topScore(){
+var db = openDatabase('DashingCar_DB_test', '1.0', 'DB Test', 2 * 1024 * 1024);
+db.transaction(function (tx) {  
+   tx.executeSql("CREATE TABLE IF NOT EXISTS User_Details"+
+	"(email ,username,password,myscore,primary key(email ,username))");
+});
+/*db.transaction(function (tx) {
+   tx.executeSql("INSERT INTO User_Details (email,username,password,myscore) VALUES"+"('christyjaeson@gmail.com','cj','pass',1000)"  );
+   tx.executeSql("INSERT INTO User_Details (email,username,password,myscore) VALUES"+"('christy.mano.g@gmail.com','christy','chris123',1234)"  );
+   tx.executeSql("INSERT INTO User_Details (email,username,password,myscore) VALUES"+"('jaesonaugustine@gmail.com','jaeson','jasu123',11234)"  );
+});*/
+db.transaction(function (tx) {
+document.querySelector('#topScoreTable').innerHTML="";
+msg = "<table><tr><th>User Name</th><th>Score</th><th>Rank</th></tr>";
+   tx.executeSql('SELECT UPPER(username) AS usr,myscore  FROM User_Details order by myscore desc', [], function (tx, results) {
+   var len = results.rows.length, i;
+    for (i = 0; i < len; i++){
+     msg+= "<tr><td style='text-align:left'>"+ results.rows.item(i).usr+"</td><td style='text-align:right'>"+ results.rows.item(i).myscore+"</td><td>"+(i+1)+"</td></tr>";
+    }
+   msg=msg+"</table>";
+   document.querySelector('#topScoreTable').innerHTML +=  msg;
+ }, null);
+});
+}
+topScore();
+</script>
+</body>
+</html>
